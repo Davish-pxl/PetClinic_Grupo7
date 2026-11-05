@@ -98,4 +98,31 @@ public class OwnerServiceTest {
 	// testFindOwnerById_NotFound, testDeleteOwner_NotFound,
 	// testFindByLastName_Empty
 	// =====================================================
+
+	@Test
+	public void testFindOwnerById_NotFound() {
+		int missingId = 999;
+		when(ownerRepository.findById(missingId)).thenReturn(Optional.empty());
+
+		assertThrows(OwnerNotFoundException.class, () -> ownerService.findById(missingId));
+	}
+
+	@Test
+	public void testDeleteOwner_NotFound() {
+		int missingId = 999;
+		when(ownerRepository.findById(missingId)).thenReturn(Optional.empty());
+
+		assertThrows(OwnerNotFoundException.class, () -> ownerService.delete(missingId));
+		verify(ownerRepository, never()).delete(any(Owner.class));
+	}
+
+	@Test
+	public void testFindByLastName_Empty() {
+		String lastName = "SinCoincidencias";
+		when(ownerRepository.findByLastName(lastName)).thenReturn(List.of());
+
+		List<OwnerDTO> result = ownerService.findByLastName(lastName);
+
+		assertTrue(result.isEmpty());
+	}
 }
