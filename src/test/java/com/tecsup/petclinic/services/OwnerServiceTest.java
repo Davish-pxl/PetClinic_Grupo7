@@ -93,6 +93,48 @@ public class OwnerServiceTest {
 	// testFindOwnerById, testFindByLastName, testFindByCity
 	// =====================================================
 
+	@Test
+	public void testFindOwnerById() throws OwnerNotFoundException {
+		Owner owner = Owner.builder().id(1).firstName("George").lastName("Franklin")
+				.address("110 W. Liberty St.").city("Madison").telephone("6085551023").build();
+		when(ownerRepository.findById(1)).thenReturn(Optional.of(owner));
+
+		OwnerDTO result = ownerService.findById(1);
+
+		assertEquals(1, result.getId());
+		assertEquals("George", result.getFirstName());
+		assertEquals("Franklin", result.getLastName());
+		verify(ownerRepository, times(1)).findById(1);
+	}
+
+	@Test
+	public void testFindByLastName() {
+		List<Owner> owners = List.of(
+				Owner.builder().id(2).firstName("Betty").lastName("Davis").city("Sun Prairie").build(),
+				Owner.builder().id(4).firstName("Harold").lastName("Davis").city("Windsor").build());
+		when(ownerRepository.findByLastName("Davis")).thenReturn(owners);
+
+		List<OwnerDTO> result = ownerService.findByLastName("Davis");
+
+		assertEquals(2, result.size());
+		assertTrue(result.stream().allMatch(o -> "Davis".equals(o.getLastName())));
+		verify(ownerRepository, times(1)).findByLastName("Davis");
+	}
+
+	@Test
+	public void testFindByCity() {
+		List<Owner> owners = List.of(
+				Owner.builder().id(6).firstName("Jean").lastName("Coleman").city("Monona").build(),
+				Owner.builder().id(7).firstName("Jeff").lastName("Black").city("Monona").build());
+		when(ownerRepository.findByCity("Monona")).thenReturn(owners);
+
+		List<OwnerDTO> result = ownerService.findByCity("Monona");
+
+		assertEquals(2, result.size());
+		assertTrue(result.stream().allMatch(o -> "Monona".equals(o.getCity())));
+		verify(ownerRepository, times(1)).findByCity("Monona");
+	}
+
 	// =====================================================
 	// Integrante C — Casos de error (rama feature/owner-errores)
 	// testFindOwnerById_NotFound, testDeleteOwner_NotFound,
