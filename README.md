@@ -38,7 +38,7 @@ mvn test -Dspring.profiles.active=h2
 |------------|------|---------|
 | A — _(nombre)_ | `feature/owner-crud` | `testCreateOwner`, `testUpdateOwner`, `testDeleteOwner` |
 | B — David (Davish-pxl) | `feature/owner-busquedas` | `testFindOwnerById`, `testFindByLastName`, `testFindByCity` |
-| C — _(nombre)_ | `feature/owner-errores` | `testFindOwnerById_NotFound`, `testDeleteOwner_NotFound`, `testFindByLastName_Empty` |
+| C — Luis (Itssmann) | `feature/owner-errores` | `testFindOwnerById_NotFound`, `testDeleteOwner_NotFound`, `testFindByLastName_Empty` |
 
 ### Conflictos resueltos
 
